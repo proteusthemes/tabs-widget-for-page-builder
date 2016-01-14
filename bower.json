@@ -1,0 +1,22 @@
+{
+  "name": "tabs-widget-for-page-builder",
+  "authors": [
+    "Gregor Capuder <capuderg@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mustache.js": "mustache#~2.2.1",
+    "bootstrap": "v4.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "requirejs": "~2.1.22",
+    "almond": "~0.3.1"
+  }
+}

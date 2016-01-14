@@ -1,0 +1,24 @@
+/**
+ * Admin CSS
+ */
+
+.pt-widget-single-tab {
+	padding: 0 10px;
+	border: 1px solid rgba(0,0,0,0.1);
+	background-color: rgba(0,0,0,0.03);
+	margin-bottom: 10px;
+}
+
+.pt-remove-tab {
+	text-decoration: none;
+}
+
+.siteorigin-panels-builder--pt-tabs.siteorigin-panels-builder .so-builder-toolbar {
+	background: #e5f4fa;
+}
+
+.siteorigin-panels-builder--pt-tabs {
+	padding: 10px 10px 0;
+	background: #f9f9f9;
+	border: 1px solid #dddddd;
+}
