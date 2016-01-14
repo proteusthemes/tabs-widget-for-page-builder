@@ -46,7 +46,7 @@ module.exports = function ( grunt ) {
 		// https://github.com/nDmitry/grunt-postcss
 		postcss: {
 			options: {
-				map:      true,
+				map:      false,
 				processors: [
 					require('autoprefixer')({browsers: ['last 2 versions', 'ie 10']}),
 				]
@@ -135,6 +135,46 @@ module.exports = function ( grunt ) {
 			},
 		},
 
+		// https://github.com/gruntjs/grunt-contrib-copy
+		copy: {
+			// create new directory for deployment
+			build: {
+				expand: true,
+				dot:    false,
+				dest:   config.pluginSlug + '/',
+				src:    [
+					'*.php',
+					// 'screenshot.{jpg,png}',
+					'assets/admin/**',
+					'assets/css/**',
+					'assets/js/**',
+					'bower_components/mustache.js/mustache.min.js',
+					'inc/**',
+					'languages/**'
+				],
+				flatten: false
+			}
+		},
+
+		// https://github.com/gruntjs/grunt-contrib-compress
+		compress: {
+			build: {
+				options: {
+					archive: config.pluginSlug + '.zip',
+					mode:    'zip'
+				},
+				src: config.pluginSlug + '/**'
+			}
+		},
+
+		// https://github.com/gruntjs/grunt-contrib-clean
+		clean: {
+			// delete the folder after zip is built
+			build: [
+				config.pluginSlug,
+			]
+		},
+
 	} );
 
 	// build assets
@@ -149,5 +189,13 @@ module.exports = function ( grunt ) {
 		'addtextdomain',
 		'makepot:theme',
 		'po2mo',
+	] );
+
+	// create installable zip
+	grunt.registerTask( 'build_zip', [
+		'build',
+		'copy:build',
+		'compress:build',
+		'clean:build',
 	] );
 };

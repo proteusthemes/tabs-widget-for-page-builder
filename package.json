@@ -4,11 +4,14 @@
     "autoprefixer": "^6.0.3",
     "cssnano": "^3.4.0",
     "grunt": "~0.4.1",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-compass": "^1.0",
+    "grunt-contrib-compress": "^0.14.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-postcss": "^0.6.0",
-    "load-grunt-tasks": "^3.1.0",
     "grunt-po2mo": "^0.1.2",
-    "grunt-wp-i18n": "^0.5.1"
+    "grunt-postcss": "^0.6.0",
+    "grunt-wp-i18n": "^0.5.1",
+    "load-grunt-tasks": "^3.1.0"
   }
 }

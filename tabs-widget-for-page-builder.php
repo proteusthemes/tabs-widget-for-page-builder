@@ -38,7 +38,7 @@ class PT_Tabs {
 	 * Setup this widget only if the Page Builder by SiteOrigin plugin is active
 	 */
 	function setup_this_plugin() {
-		if ( is_plugin_active('siteorigin-panels/siteorigin-panels.php') ) {
+		if ( defined( 'SITEORIGIN_PANELS_VERSION' ) ) {
 			load_plugin_textdomain( 'pt-tabs', false, PT_TABS_PATH . 'languages/' );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_js_css' ), 20 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_js_css' ), 20 );
