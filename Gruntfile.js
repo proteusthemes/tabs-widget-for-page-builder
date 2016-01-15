@@ -144,13 +144,17 @@ module.exports = function ( grunt ) {
 				dest:   config.pluginSlug + '/',
 				src:    [
 					'*.php',
-					// 'screenshot.{jpg,png}',
+					'assets/screenshot-*.{jpg,png}',
 					'assets/admin/**',
 					'assets/css/**',
 					'assets/js/**',
 					'bower_components/mustache.js/mustache.min.js',
+					'bower_components/bootstrap/dist/js/umd/util.js',
+					'bower_components/bootstrap/dist/js/umd/tab.js',
 					'inc/**',
-					'languages/**'
+					'languages/**',
+					'LICENSE.txt',
+					'readme.txt'
 				],
 				flatten: false
 			}
