@@ -40,6 +40,8 @@ class PT_Tabs {
 	function setup_this_plugin() {
 		if ( defined( 'SITEORIGIN_PANELS_VERSION' ) ) {
 			load_plugin_textdomain( 'pt-tabs', false, PT_TABS_PATH . 'languages/' );
+
+			// actions to fire once we know, that Page Builder by SiteOrigin plugin is active
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_js_css' ), 20 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_js_css' ), 20 );
 			add_action( 'widgets_init', array( $this, 'widgets_init' ) );
@@ -55,16 +57,16 @@ class PT_Tabs {
 	 */
 	function admin_enqueue_js_css() {
 		if ( 'mustache-js' === $this->enqueue_admin_scripts['mustache-js'] ) {
-			// Register mustache js
+			// Register mustache.js
 			wp_register_script( 'mustache-js', PT_TABS_URL . 'bower_components/mustache.js/mustache.min.js' );
 		}
 
 		if ( $this->enqueue_admin_scripts['admin-js'] ) {
-			// Enqueue admin js
+			// Enqueue admin JS
 			wp_enqueue_script( 'pt-tabs-admin-js', PT_TABS_URL . 'assets/admin/js/admin.js', array( 'jquery', 'underscore', 'backbone', $this->enqueue_admin_scripts['mustache-js'] ), PT_TABS_VERSION );
 		}
 
-		// Enqueue admin css
+		// Enqueue admin CSS
 		wp_enqueue_style( 'pt-tabs-admin-style', PT_TABS_URL . 'assets/admin/css/admin.css', array(), PT_TABS_VERSION );
 	}
 
@@ -76,12 +78,12 @@ class PT_Tabs {
 	 */
 	function enqueue_js_css() {
 		if ( $this->enqueue_frontend_scripts['main-js'] ) {
-			// Main js (custom Bootstrap js)
+			// Main JS (selected Bootstrap JS parts)
 			wp_enqueue_script( 'pt-tabs-main-js', PT_TABS_URL . 'assets/js/main.min.js', array( 'jquery' ), PT_TABS_VERSION );
 		}
 
 		if ( $this->enqueue_frontend_scripts['main-css'] ) {
-			// Main plugin css (Bootstrap css)
+			// Main CSS (selected Bootstrap CSS parts)
 			wp_enqueue_style( 'pt-tabs-style', PT_TABS_URL . 'assets/css/style.min.css', array(), PT_TABS_VERSION );
 		}
 	}
