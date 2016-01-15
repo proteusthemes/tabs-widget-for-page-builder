@@ -1,5 +1,5 @@
 /**
- * Admin dashboard js code
+ * Admin dashboard JS code
  */
 
 /********************************************************
@@ -14,7 +14,6 @@ window.PTTabs = {
 	Utils:     {},
 };
 
-
 /**
  ******************** Backbone Models *******************
  */
@@ -28,8 +27,6 @@ _.extend( PTTabs.Models, {
 		}
 	} ),
 } );
-
-
 
 /**
  ******************** Backbone Views *******************
@@ -78,7 +75,6 @@ _.extend( PTTabs.Views, {
 } );
 
 
-
 /**
  ******************** Backbone ListViews *******************
  *
@@ -96,7 +92,7 @@ PTTabs.ListViews.Abstract = Backbone.View.extend( {
 		// Cached reference to the element in the DOM
 		this.$items = this.$( params.itemsClass );
 
-		// Collection of items(locations, people, testimonials,...),
+		// Collection of items
 		this.items = new Backbone.Collection( [], {
 			model: this.itemsModel
 		} );
@@ -149,7 +145,7 @@ PTTabs.ListViews.Abstract = Backbone.View.extend( {
 	}
 } );
 
-// Collection of all locations, but associated with each individual widget
+
 _.extend( PTTabs.ListViews, {
 
 	// Collection of all tabs, but associated with each individual widget
@@ -186,11 +182,9 @@ _.extend( PTTabs.ListViews, {
 } );
 
 
-
 /**
  ******************** Repopulate Functions *******************
  */
-
 
 _.extend( PTTabs.Utils, {
 	// Generic repopulation function used in all repopulate functions

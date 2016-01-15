@@ -14,7 +14,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 			parent::__construct(
 				'pt_' . $this->widget_id_base,
-				sprintf( 'ProteusThemes: %s', $this->widget_name ),
+				sprintf( '%s by ProteusThemes', $this->widget_name ),
 				array(
 					'description' => $this->widget_description,
 					'classname'   => $this->widget_class,
@@ -48,7 +48,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					<ul class="pt-tabs__navigation  nav  nav-tabs" role="tablist">
 						<?php foreach ( $items as $item ) : ?>
 							<li class="nav-item">
-								<a class="nav-link<?php echo empty( $item['active'] ) ? '' : '  active'; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['builder_id'] ); ?>" role="tab"><?php echo esc_html( $item['title'] ); ?></a>
+								<a class="nav-link<?php echo empty( $item['active'] ) ? '' : '  active'; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['builder_id'] ); ?>" role="tab"><?php echo wp_kses_post( $item['title'] ); ?></a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
