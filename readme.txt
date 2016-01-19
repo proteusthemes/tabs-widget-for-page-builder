@@ -16,7 +16,11 @@ The "Tabs for Page Builder" widget allows you to add multiple tabs with a tab na
 
 The front-end display is the same as the tabs in Bootstrap framework.
 
-Note: the front-end design is bare-bones, so only the default Bootstrap CSS is used. So you should style it to your own liking with custom CSS. Maybe we will add some custom skins in the future, but I can't make any promises.
+[More details about this plugin can be found in this post](http://gregorcapuder.com/tabs-widget-for-page-builder/).
+
+Note: This widget works only in the Page Builder editor, so do not use it in the WordPress sidebars.
+
+Note: the front-end design is "bare bones", so only the default Bootstrap CSS is used. So you should style it to your own liking with custom CSS. Maybe we will add some custom skins in the future, but I can't make any promises.
 
 == Installation ==
 
