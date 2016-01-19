@@ -144,7 +144,6 @@ module.exports = function ( grunt ) {
 			// 	dest:   config.pluginSlug + '/',
 			// 	src:    [
 			// 		'*.php',
-			// 		'assets/screenshot-*.{jpg,png}',
 			// 		'assets/admin/**',
 			// 		'assets/css/**',
 			// 		'assets/js/**',
@@ -165,7 +164,6 @@ module.exports = function ( grunt ) {
 				dest:   '/Users/capuderg/Documents/pt/wp-plugins-svn/tabs-widget-for-page-builder/trunk/',
 				src:    [
 					'*.php',
-					'assets/screenshot-*.{jpg,png}',
 					'assets/admin/**',
 					'assets/css/**',
 					'assets/js/**',
