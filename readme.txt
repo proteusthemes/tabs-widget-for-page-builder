@@ -11,6 +11,7 @@ Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by Site
 == Description ==
 
 Page Builder by Site Origin editor is great, but it lacks a "tabs widget", so we created one.
+
 The "Tabs for Page Builder" widget allows you to add multiple tabs with a tab name and tab content. The tab content is using the Page Builder editor, so you can build your own layout inside the tab content (add widgets, set columns, ...).
 
 The front-end display is the same as the tabs in Bootstrap framework.
