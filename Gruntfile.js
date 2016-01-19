@@ -138,10 +138,31 @@ module.exports = function ( grunt ) {
 		// https://github.com/gruntjs/grunt-contrib-copy
 		copy: {
 			// create new directory for deployment
-			build: {
+			// build: {
+			// 	expand: true,
+			// 	dot:    false,
+			// 	dest:   config.pluginSlug + '/',
+			// 	src:    [
+			// 		'*.php',
+			// 		'assets/screenshot-*.{jpg,png}',
+			// 		'assets/admin/**',
+			// 		'assets/css/**',
+			// 		'assets/js/**',
+			// 		'bower_components/mustache.js/mustache.min.js',
+			// 		'bower_components/bootstrap/dist/js/umd/util.js',
+			// 		'bower_components/bootstrap/dist/js/umd/tab.js',
+			// 		'inc/**',
+			// 		'languages/**',
+			// 		'LICENSE.txt',
+			// 		'readme.txt'
+			// 	],
+			// 	flatten: false
+			// },
+			// copy to local wordpress plugin svn trunk folder
+			svn_trunk: {
 				expand: true,
 				dot:    false,
-				dest:   config.pluginSlug + '/',
+				dest:   '/Users/capuderg/Documents/pt/wp-plugins-svn/tabs-widget-for-page-builder/trunk/',
 				src:    [
 					'*.php',
 					'assets/screenshot-*.{jpg,png}',
@@ -161,23 +182,23 @@ module.exports = function ( grunt ) {
 		},
 
 		// https://github.com/gruntjs/grunt-contrib-compress
-		compress: {
-			build: {
-				options: {
-					archive: config.pluginSlug + '.zip',
-					mode:    'zip'
-				},
-				src: config.pluginSlug + '/**'
-			}
-		},
+		// compress: {
+		// 	build: {
+		// 		options: {
+		// 			archive: config.pluginSlug + '.zip',
+		// 			mode:    'zip'
+		// 		},
+		// 		src: config.pluginSlug + '/**'
+		// 	}
+		// },
 
 		// https://github.com/gruntjs/grunt-contrib-clean
-		clean: {
-			// delete the folder after zip is built
-			build: [
-				config.pluginSlug,
-			]
-		},
+		// clean: {
+		// 	// delete the folder after zip is built
+		// 	build: [
+		// 		config.pluginSlug,
+		// 	]
+		// },
 
 	} );
 
@@ -195,11 +216,17 @@ module.exports = function ( grunt ) {
 		'po2mo',
 	] );
 
+	// // create installable zip
+	// grunt.registerTask( 'build_zip', [
+	// 	'build',
+	// 	'copy:build',
+	// 	'compress:build',
+	// 	'clean:build',
+	// ] );
+
 	// create installable zip
-	grunt.registerTask( 'build_zip', [
+	grunt.registerTask( 'build_to_svn_trunk', [
 		'build',
-		'copy:build',
-		'compress:build',
-		'clean:build',
+		'copy:svn_trunk',
 	] );
 };
