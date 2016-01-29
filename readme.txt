@@ -1,6 +1,6 @@
 === Tabs Widget for Page Builder ===
 Contributors: capuderg, cyman
-Tags: tabs, widget, page builder by site origin, bootstrap
+Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
 Tested up to: 4.4.1
 Stable tag: 1.0.0
@@ -10,7 +10,7 @@ Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by Site
 
 == Description ==
 
-Page Builder by Site Origin editor is great, but it lacks a "tabs widget", so we created one.
+Page Builder by SiteOrigin editor is great, but it lacks a "tabs widget", so we created one.
 
 The "Tabs for Page Builder" widget allows you to add multiple tabs with a tab name and tab content. The tab content is using the Page Builder editor, so you can build your own layout inside the tab content (add widgets, set columns, ...).
 
