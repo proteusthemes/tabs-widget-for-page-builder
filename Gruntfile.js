@@ -179,24 +179,13 @@ module.exports = function ( grunt ) {
 			}
 		},
 
-		// https://github.com/gruntjs/grunt-contrib-compress
-		// compress: {
-		// 	build: {
-		// 		options: {
-		// 			archive: config.pluginSlug + '.zip',
-		// 			mode:    'zip'
-		// 		},
-		// 		src: config.pluginSlug + '/**'
-		// 	}
-		// },
-
-		// https://github.com/gruntjs/grunt-contrib-clean
-		// clean: {
-		// 	// delete the folder after zip is built
-		// 	build: [
-		// 		config.pluginSlug,
-		// 	]
-		// },
+		wp_readme_to_markdown: {
+			your_target: {
+				files: {
+					'readme.md': 'readme.txt'
+				},
+			},
+		},
 
 	} );
 
@@ -212,6 +201,11 @@ module.exports = function ( grunt ) {
 		'addtextdomain',
 		'makepot:theme',
 		'po2mo',
+	] );
+
+	// update languages files
+	grunt.registerTask( 'readme', [
+		'wp_readme_to_markdown',
 	] );
 
 	// // create installable zip

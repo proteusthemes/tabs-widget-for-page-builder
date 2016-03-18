@@ -12,6 +12,7 @@
     "grunt-po2mo": "^0.1.2",
     "grunt-postcss": "^0.6.0",
     "grunt-wp-i18n": "^0.5.1",
-    "load-grunt-tasks": "^3.1.0"
+    "load-grunt-tasks": "^3.1.0",
+    "grunt-wp-readme-to-markdown": "^1.0.0"
   }
 }
