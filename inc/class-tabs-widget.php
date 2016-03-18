@@ -34,6 +34,12 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			$instance['widget_title'] = empty( $instance['widget_title'] ) ? '' : $args['before_title'] . apply_filters( 'widget_title', $instance['widget_title'], $instance ) . $args['after_title'];
 			$items                    = isset( $instance['items'] ) ? array_values( $instance['items'] ) : array();
 
+			// Prepare items data.
+			// Fix for tabs widget inside a tabs widget, because the nested widget does not get a builder_id.
+			foreach ( $items as $key => $item ) {
+				$items[ $key ]['builder_id'] = empty( $item['builder_id'] ) ? uniqid() : $item['builder_id'];
+			}
+
 			echo $args['before_widget'];
 			?>
 			<div class="pt-tabs">
