@@ -93,7 +93,19 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 				}
 			}
 
+			// Sort items by ids, because order might have changed.
+			usort( $instance['items'], array( $this, 'sort_by_id' ) );
+
 			return $instance;
+		}
+
+		/**
+		 * Helper function to order items by ids.
+		 * @param int $a first comparable parameter.
+		 * @param int $b second comparable parameter.
+		 */
+		function sort_by_id( $a, $b ) {
+			return $a['id'] - $b['id'];
 		}
 
 		/**
@@ -139,19 +151,19 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			</div>
 
 			<p>
-				<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" type="hidden" value="{{id}}" />
+				<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
 				<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'pt-tabs' ); ?></a>
 			</p>
 		</script>
 		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>">
-			<div class="tabs"></div>
+			<div class="tabs  js-pt-sortable-tabs"></div>
 			<p>
 				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'pt-tabs' ); ?></a>
 			</p>
 		</div>
 
 		<script type="text/javascript">
-			(function() {
+			(function( $ ) {
 				var tabsJSON = <?php echo wp_json_encode( $items ) ?>;
 
 				// Get the right widget id and remove the added < > characters at the start and at the end.
@@ -160,7 +172,16 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 				if ( _.isFunction( PTTabs.Utils.repopulateTabs ) ) {
 					PTTabs.Utils.repopulateTabs( tabsJSON, widgetId );
 				}
-			})();
+
+				$( '.js-pt-sortable-tabs' ).sortable({
+					items: '.pt-widget-single-tab',
+					stop: function( event, ui ) {
+						$( this ).find( '.js-pt-tab-id' ).each( function( index ) {
+							$( this ).val( index );
+						});
+					}
+				});
+			})( jQuery );
 		</script>
 
 		<?php

@@ -63,7 +63,7 @@ class PT_Tabs {
 
 		if ( $this->enqueue_admin_scripts['admin-js'] ) {
 			// Enqueue admin JS
-			wp_enqueue_script( 'pt-tabs-admin-js', PT_TABS_URL . 'assets/admin/js/admin.js', array( 'jquery', 'underscore', 'backbone', $this->enqueue_admin_scripts['mustache-js'] ), PT_TABS_VERSION );
+			wp_enqueue_script( 'pt-tabs-admin-js', PT_TABS_URL . 'assets/admin/js/admin.js', array( 'jquery', 'underscore', 'backbone', 'jquery-ui-sortable', $this->enqueue_admin_scripts['mustache-js'] ), PT_TABS_VERSION );
 		}
 
 		// Enqueue admin CSS
