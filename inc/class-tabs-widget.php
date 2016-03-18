@@ -83,7 +83,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					$instance['items'][ $key ]['id']          = sanitize_key( $item['id'] );
 					$instance['items'][ $key ]['title']       = sanitize_text_field( $item['title'] );
 					$instance['items'][ $key ]['builder_id']  = uniqid();
-					$instance['items'][ $key ]['panels_data'] = empty( $item['panels_data'] ) ? '' : $item['panels_data'];
+					$instance['items'][ $key ]['panels_data'] = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
 				}
 			}
 
