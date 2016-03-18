@@ -138,30 +138,10 @@ module.exports = function ( grunt ) {
 		// https://github.com/gruntjs/grunt-contrib-copy
 		copy: {
 			// create new directory for deployment
-			// build: {
-			// 	expand: true,
-			// 	dot:    false,
-			// 	dest:   config.pluginSlug + '/',
-			// 	src:    [
-			// 		'*.php',
-			// 		'assets/admin/**',
-			// 		'assets/css/**',
-			// 		'assets/js/**',
-			// 		'bower_components/mustache.js/mustache.min.js',
-			// 		'bower_components/bootstrap/dist/js/umd/util.js',
-			// 		'bower_components/bootstrap/dist/js/umd/tab.js',
-			// 		'inc/**',
-			// 		'languages/**',
-			// 		'LICENSE.txt',
-			// 		'readme.txt'
-			// 	],
-			// 	flatten: false
-			// },
-			// copy to local wordpress plugin svn trunk folder
-			svn_trunk: {
+			build: {
 				expand: true,
 				dot:    false,
-				dest:   '/Users/capuderg/Documents/pt/wp-plugins-svn/tabs-widget-for-page-builder/trunk/',
+				dest:   config.pluginSlug + '/',
 				src:    [
 					'*.php',
 					'assets/admin/**',
@@ -208,17 +188,10 @@ module.exports = function ( grunt ) {
 		'wp_readme_to_markdown',
 	] );
 
-	// // create installable zip
-	// grunt.registerTask( 'build_zip', [
-	// 	'build',
-	// 	'copy:build',
-	// 	'compress:build',
-	// 	'clean:build',
-	// ] );
-
 	// create installable zip
-	grunt.registerTask( 'build_to_svn_trunk', [
+	grunt.registerTask( 'build_new_version', [
 		'build',
-		'copy:svn_trunk',
+		'copy:build',
 	] );
+
 };
