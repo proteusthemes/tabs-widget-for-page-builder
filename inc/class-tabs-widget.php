@@ -6,6 +6,8 @@
 if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 	class PT_Tabs_Widget extends WP_Widget {
 
+		private $used_IDs = array();
+
 		public function __construct() {
 			$this->widget_id_base     = 'tabs';
 			$this->widget_name        = esc_html__( 'Tabs for Page Builder', 'pt-tabs' );
@@ -35,9 +37,9 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			$items                    = isset( $instance['items'] ) ? array_values( $instance['items'] ) : array();
 
 			// Prepare items data.
-			// Fix for tabs widget inside a tabs widget, because the nested widget does not get a builder_id.
 			foreach ( $items as $key => $item ) {
 				$items[ $key ]['builder_id'] = empty( $item['builder_id'] ) ? uniqid() : $item['builder_id'];
+				$items[ $key ]['tab_id']     = $this->format_id_from_name( $item['title'] );
 			}
 
 			echo $args['before_widget'];
@@ -54,14 +56,14 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					<ul class="pt-tabs__navigation  nav  nav-tabs" role="tablist">
 						<?php foreach ( $items as $item ) : ?>
 							<li class="nav-item">
-								<a class="nav-link<?php echo empty( $item['active'] ) ? '' : '  active'; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['builder_id'] ); ?>" role="tab"><?php echo wp_kses_post( $item['title'] ); ?></a>
+								<a class="nav-link<?php echo empty( $item['active'] ) ? '' : '  active'; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['tab_id'] ); ?>" role="tab"><?php echo wp_kses_post( $item['title'] ); ?></a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
 
 					<div class="pt-tabs__content  tab-content">
 					<?php foreach ( $items as $item ) : ?>
-						<div class="tab-pane  fade<?php echo empty( $item['active'] ) ? '' : '  in  active'; ?>" id="tab-<?php echo esc_attr( $item['builder_id'] ); ?>" role="tabpanel">
+						<div class="tab-pane  fade<?php echo empty( $item['active'] ) ? '' : '  in  active'; ?>" id="tab-<?php echo esc_attr( $item['tab_id']  ); ?>" role="tabpanel">
 							<?php echo siteorigin_panels_render( 'w'.$item['builder_id'], true, $item['panels_data'] ); ?>
 						</div>
 					<?php endforeach; ?>
@@ -71,6 +73,30 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 			<?php
 			echo $args['after_widget'];
+		}
+
+		/**
+		 * Prepare ID from tab title for use in the front-end of tabs widget.
+		 *
+		 * @param string $tab_title The title of the tab.
+		 * @return string formated id.
+		 */
+		private function format_id_from_name( $tab_title ) {
+
+			// Prepare tab id.
+			$tab_id = sanitize_title( $tab_title );
+
+			// Add suffix if there are multiple identical tab titles.
+			if ( array_key_exists( $tab_id, $this->used_IDs ) ) {
+				$this->used_IDs[ $tab_id ] ++;
+				$tab_id = $tab_id . '-' . $this->used_IDs[ $tab_id ];
+			}
+			else {
+				$this->used_IDs[ $tab_id ] = 0;
+			}
+
+			// Return unique ID.
+			return $tab_id;
 		}
 
 		/**
