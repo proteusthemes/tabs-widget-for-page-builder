@@ -30,12 +30,14 @@ Once you activate it, the "Tabs Widget for Page Builder" widget will be availabl
 
 ### 1.1.0 ###
 *20 March 2016*
+
 * tabs widget now also works in WordPress sidebars (not only in Page Builder editor),
 * tabs widget now works inside another tabs widget,
 * front-end IDs now use tab titles (no more random strings)
 
 ### 1.0.0 ###
 *Release Date - 19 January 2016*
+
 * Initial version of the plugin
 
 ## Frequently Asked Questions ##
