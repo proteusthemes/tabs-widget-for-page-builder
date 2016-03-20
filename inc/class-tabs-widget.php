@@ -162,25 +162,36 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		<h3><?php esc_html_e( 'Tabs:', 'pt-tabs' ); ?></h3>
 
 		<script type="text/template" id="js-pt-tab-<?php echo esc_attr( $this->current_widget_id ); ?>">
-			<p>
-				<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'pt-tabs' ); ?></label>
-				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][title]" type="text" value="{{title}}" />
-			</p>
+			<div class="pt-tab-setting  ui-widget  ui-widget-content  ui-helper-clearfix  ui-corner-all">
+				<div class="pt-tab-setting__header  ui-widget-header  ui-corner-all">
+					<span class="dashicons  dashicons-sort"></span>
+					<span><?php esc_html_e( 'Tab', 'pt-tabs' ); ?> - </span>
+					<span class="pt-tab-setting__header-title">{{title}}</span>
+					<span class="pt-tab-setting__toggle  dashicons  dashicons-minus"></span>
+				</div>
+				<div class="pt-tab-setting__content">
+					<p>
+						<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'pt-tabs' ); ?></label>
+						<input class="widefat  js-pt-tab-setting-title" id="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][title]" type="text" value="{{title}}" />
+					</p>
 
-			<label><?php _ex( 'Tab content:', 'backend', 'pt-tabs' ); ?></label>
-			<div class="siteorigin-page-builder-widget siteorigin-panels-builder siteorigin-panels-builder--pt-tabs" id="siteorigin-page-builder-widget-{{builder_id}}" data-builder-id="{{builder_id}}" data-type="layout_widget">
-				<p>
-					<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'pt-tabs') ?></a>
-				</p>
+					<label><?php _ex( 'Tab content:', 'backend', 'pt-tabs' ); ?></label>
+					<div class="siteorigin-page-builder-widget siteorigin-panels-builder siteorigin-panels-builder--pt-tabs" id="siteorigin-page-builder-widget-{{builder_id}}" data-builder-id="{{builder_id}}" data-type="layout_widget">
+						<p>
+							<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'pt-tabs') ?></a>
+						</p>
 
-				<input type="hidden" data-panels-filter="json_parse" value="{{panels_data}}" class="panels-data" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][panels_data]" />
+						<input type="hidden" data-panels-filter="json_parse" value="{{panels_data}}" class="panels-data" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][panels_data]" />
+					</div>
+
+					<p>
+						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
+						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'pt-tabs' ); ?></a>
+					</p>
+				</div>
 			</div>
-
-			<p>
-				<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
-				<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'pt-tabs' ); ?></a>
-			</p>
 		</script>
+
 		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>">
 			<div class="tabs  js-pt-sortable-tabs"></div>
 			<p>
@@ -199,20 +210,34 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					PTTabs.Utils.repopulateTabs( tabsJSON, widgetId );
 				}
 
+				// Make tabs settings sortable.
 				$( '.js-pt-sortable-tabs' ).sortable({
 					items: '.pt-widget-single-tab',
+					handle: '.pt-tab-setting__header',
+					cancel: '.pt-tab-setting__toggle',
+					placeholder: 'pt-tab-setting__placeholder',
 					stop: function( event, ui ) {
 						$( this ).find( '.js-pt-tab-id' ).each( function( index ) {
 							$( this ).val( index );
 						});
 					}
 				});
+
+				// Make tabs settings foldable.
+				$(document).on( 'click', '.pt-tab-setting__toggle', function() {
+					$( this ).toggleClass( 'dashicons-minus dashicons-plus' );
+					$( this ).closest( '.pt-tab-setting' ).find( '.pt-tab-setting__content' ).toggle();
+				});
+
+				// Update tab setting header on tab title change.
+				$(document).on( 'change', '.js-pt-tab-setting-title', function() {
+					$( this ).closest( '.pt-tab-setting' ).find( '.pt-tab-setting__header-title' ).text( $( this ).val() );
+				});
 			})( jQuery );
 		</script>
 
 		<?php
 		}
-
 	}
 	register_widget( 'PT_Tabs_Widget' );
 }

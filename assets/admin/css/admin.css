@@ -3,7 +3,6 @@
  */
 
 .pt-widget-single-tab {
-	padding: 0 10px;
 	border: 1px solid rgba(0,0,0,0.1);
 	background-color: rgba(0,0,0,0.03);
 	margin-bottom: 10px;
@@ -21,4 +20,33 @@
 	padding: 10px 10px 0;
 	background: #f9f9f9;
 	border: 1px solid #dddddd;
+}
+
+.pt-tab-setting__header {
+	position: relative;
+	padding: 10px;
+	background-color: #dddddd;
+	color: #777777;
+}
+
+.pt-tab-setting__header-title {
+	color: initial;
+}
+
+.pt-tab-setting__toggle {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -16px;
+	padding: 6px;
+}
+
+.pt-tab-setting__content {
+	padding: 0 10px;
+}
+
+.pt-tab-setting__placeholder {
+	border: 1px dotted #777777;
+	height: 40px;
+	margin-bottom: 10px;
 }
