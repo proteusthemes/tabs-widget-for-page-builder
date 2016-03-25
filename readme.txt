@@ -3,7 +3,7 @@ Contributors: capuderg, cyman
 Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
 Tested up to: 4.4.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3 or later
 
 Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by SiteOrigin editor.

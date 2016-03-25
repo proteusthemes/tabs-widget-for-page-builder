@@ -32,15 +32,15 @@ msgstr ""
 msgid "Bootstrap tabs widget for use in Page Builder."
 msgstr ""
 
-#: inc/class-tabs-widget.php:144
+#: inc/class-tabs-widget.php:148
 msgid "Widget title:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:150
+#: inc/class-tabs-widget.php:154
 msgid "Tabs:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:161
+#: inc/class-tabs-widget.php:165
 msgid "Open Builder"
 msgstr ""
 
@@ -60,22 +60,22 @@ msgstr ""
 msgid "ProteusThemes"
 msgstr ""
 
-#: inc/class-tabs-widget.php:154
+#: inc/class-tabs-widget.php:158
 msgctxt "backend"
 msgid "Tab title:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:158
+#: inc/class-tabs-widget.php:162
 msgctxt "backend"
 msgid "Tab content:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:169
+#: inc/class-tabs-widget.php:173
 msgctxt "backend"
 msgid "Remove tab"
 msgstr ""
 
-#: inc/class-tabs-widget.php:175
+#: inc/class-tabs-widget.php:179
 msgctxt "backend"
 msgid "Add new tab"
 msgstr ""
