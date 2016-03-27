@@ -83,8 +83,14 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		 */
 		private function format_id_from_name( $tab_title ) {
 
-			// Prepare tab id.
-			$tab_id = sanitize_title( $tab_title );
+			// To lowercase.
+			$tab_id = strtolower( $tab_title );
+			// Clean up multiple dashes or whitespaces.
+			$tab_id = preg_replace( '/[\s-]+/', ' ', $tab_id );
+			// Convert whitespaces and underscore to dash.
+			$tab_id = preg_replace( '/[\s_]/', '-', $tab_id );
+			// Remove all specials characters that are not unicode letters, numbers or dashes.
+			$tab_id = preg_replace( '/[^\p{L}\p{N}-]+/u', '', $tab_id );
 
 			// Add suffix if there are multiple identical tab titles.
 			if ( array_key_exists( $tab_id, $this->used_IDs ) ) {

@@ -2,7 +2,7 @@
 # This file is distributed under the GPL 2.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tabs Widget for Page Builder 1.0.0\n"
+"Project-Id-Version: Tabs Widget for Page Builder 1.1.2\n"
 "Report-Msgid-Bugs-To: http://support.proteusthemes.com/\n"
 "POT-Creation-Date: 2016-01-13 11:13:11+00:00\n"
 "MIME-Version: 1.0\n"
@@ -24,23 +24,23 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: inc/class-tabs-widget.php:11
+#: inc/class-tabs-widget.php:13
 msgid "Tabs for Page Builder"
 msgstr ""
 
-#: inc/class-tabs-widget.php:12
+#: inc/class-tabs-widget.php:14
 msgid "Bootstrap tabs widget for use in Page Builder."
 msgstr ""
 
-#: inc/class-tabs-widget.php:112
+#: inc/class-tabs-widget.php:150
 msgid "Widget title:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:118
+#: inc/class-tabs-widget.php:156
 msgid "Tabs:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:129
+#: inc/class-tabs-widget.php:167
 msgid "Open Builder"
 msgstr ""
 
@@ -60,22 +60,22 @@ msgstr ""
 msgid "ProteusThemes"
 msgstr ""
 
-#: inc/class-tabs-widget.php:122
+#: inc/class-tabs-widget.php:160
 msgctxt "backend"
 msgid "Tab title:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:126
+#: inc/class-tabs-widget.php:164
 msgctxt "backend"
 msgid "Tab content:"
 msgstr ""
 
-#: inc/class-tabs-widget.php:137
+#: inc/class-tabs-widget.php:175
 msgctxt "backend"
 msgid "Remove tab"
 msgstr ""
 
-#: inc/class-tabs-widget.php:143
+#: inc/class-tabs-widget.php:181
 msgctxt "backend"
 msgid "Add new tab"
 msgstr ""
