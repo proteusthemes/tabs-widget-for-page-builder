@@ -3,7 +3,7 @@ Contributors: capuderg, cyman
 Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
 Tested up to: 4.4.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3 or later
 
 Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by SiteOrigin editor.
@@ -27,6 +27,16 @@ Upload the Tabs Widget for Page Builder plugin to your WordPress site, Activate 
 Once you activate it, the "Tabs Widget for Page Builder" widget will be available in your Page Builder editor.
 
 == Changelog ==
+
+= 1.1.2 =
+*27 March 2016*
+
+* Improved the the front-end tab ids reg-ex, to remove special characters
+
+= 1.1.1 =
+*25 March 2016*
+
+* Fixed issue with front-end tab ids if the tab titles were not alphanumeric (Cyrillic  characters, for example)
 
 = 1.1.0 =
 *20 March 2016*
