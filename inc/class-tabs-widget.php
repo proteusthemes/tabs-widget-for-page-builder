@@ -228,17 +228,6 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 						});
 					}
 				});
-
-				// Make tabs settings foldable.
-				$(document).on( 'click', '.pt-tab-setting__toggle', function() {
-					$( this ).toggleClass( 'dashicons-minus dashicons-plus' );
-					$( this ).closest( '.pt-tab-setting' ).find( '.pt-tab-setting__content' ).toggle();
-				});
-
-				// Update tab setting header on tab title change.
-				$(document).on( 'change', '.js-pt-tab-setting-title', function() {
-					$( this ).closest( '.pt-tab-setting' ).find( '.pt-tab-setting__header-title' ).text( $( this ).val() );
-				});
 			})( jQuery );
 		</script>
 
