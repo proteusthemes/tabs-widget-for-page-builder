@@ -3,7 +3,7 @@
 Plugin Name: Tabs Widget for Page Builder
 Plugin URI: http://www.proteusthemes.com
 Description: Bootstrap tabs widget for use in Page Builder by SiteOrigin
-Version: 1.2.0
+Version: 1.2.1
 Author: ProteusThemes
 Author URI: http://www.proteusthemes.com
 License: GPL3
@@ -17,7 +17,7 @@ define( 'PT_TABS_PATH', apply_filters( 'pt-tabs/plugin_dir_path', plugin_dir_pat
 define( 'PT_TABS_URL', apply_filters( 'pt-tabs/plugin_dir_url', plugin_dir_url( __FILE__ ) ) );
 
 // Current version of the plugin
-define( 'PT_TABS_VERSION', apply_filters( 'pt-tabs/version', '1.2.0' ) );
+define( 'PT_TABS_VERSION', apply_filters( 'pt-tabs/version', '1.2.1' ) );
 
 /**
  * Tabs Widget class, so we don't have to worry about namespaces

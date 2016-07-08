@@ -3,7 +3,7 @@ Contributors: capuderg, cyman
 Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
 Tested up to: 4.4.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3 or later
 
 Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by SiteOrigin editor.
@@ -27,6 +27,11 @@ Upload the Tabs Widget for Page Builder plugin to your WordPress site, Activate 
 Once you activate it, the "Tabs Widget for Page Builder" widget will be available in your Page Builder editor.
 
 == Changelog ==
+
+= 1.2.1 =
+*8 July 2016*
+
+* Added a filter, that enables older Twitter Bootstrap tabs layout.
 
 = 1.2.0 =
 *8 April 2016*
@@ -57,7 +62,13 @@ Once you activate it, the "Tabs Widget for Page Builder" widget will be availabl
 
 == Frequently Asked Questions ==
 
-Will be added, once there will be questions to answer...
+= The tabs widget is not working properly? =
+
+If for example the first tab always remains active, than this is an indicator that your theme (or another plugin) is using an older version of Twitter Bootstrap. In this plugin we use the Bootstrap version 4.x, so some HTML is different from the older versions (v3.x, v2.x). You can solve this by adding the bellow code to your theme *functions.php* file:
+
+`add_filter( 'pt-tabs/use_older_bootstrap_layout', '__return_true' );`
+
+Also make sure that you have the latest version of this Tabs widget plugin.
 
 == Screenshots ==
 
