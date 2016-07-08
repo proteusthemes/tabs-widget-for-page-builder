@@ -42,6 +42,9 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 				$items[ $key ]['tab_id']     = $this->format_id_from_name( $item['title'] );
 			}
 
+			// Should we use the older Twitter Bootstrap tabs layout?
+			$older_bootstrap_layout = apply_filters( 'pt-tabs/use_older_bootstrap_layout', false );
+
 			echo $args['before_widget'];
 			?>
 			<div class="pt-tabs">
@@ -51,12 +54,12 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 				<?php
 					if ( ! empty( $items ) ) :
-						$items[0]['active'] = true; // first tab should be active
+						$items[0]['active'] = true; // First tab should be active.
 				?>
 					<ul class="pt-tabs__navigation  nav  nav-tabs" role="tablist">
 						<?php foreach ( $items as $item ) : ?>
-							<li class="nav-item">
-								<a class="nav-link<?php echo empty( $item['active'] ) ? '' : '  active'; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['tab_id'] ); ?>" role="tab"><?php echo wp_kses_post( $item['title'] ); ?></a>
+							<li class="nav-item<?php echo ( ! empty( $item['active'] ) && $older_bootstrap_layout ) ? '  active' : ''; ?>">
+								<a class="nav-link<?php echo ( ! empty( $item['active'] ) && ! $older_bootstrap_layout ) ? '  active' : ''; ?>" data-toggle="tab" href="#tab-<?php echo esc_attr( $item['tab_id'] ); ?>" role="tab"><?php echo wp_kses_post( $item['title'] ); ?></a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
