@@ -2,7 +2,7 @@
 Contributors: capuderg, cyman
 Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
-Tested up to: 4.5.3
+Tested up to: 4.9
 Stable tag: 1.2.1
 License: GPLv3 or later
 
