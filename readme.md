@@ -1,5 +1,5 @@
 # Tabs Widget for Page Builder #
-**Contributors:** capuderg, cyman  
+**Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes  
 **Requires at least:** 4.0.0  
 **Tested up to:** 4.9  
