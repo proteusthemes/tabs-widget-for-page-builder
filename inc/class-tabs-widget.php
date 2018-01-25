@@ -122,7 +122,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			if ( ! empty( $new_instance['items'] )  ) {
 				foreach ( $new_instance['items'] as $key => $item ) {
 					$instance['items'][ $key ]['id']          = sanitize_key( $item['id'] );
-					$instance['items'][ $key ]['title']       = (apply_filters('pt-tabs/sanitize_title', true)) ? sanitize_text_field( $item['title'] ) : $item['title'];
+					$instance['items'][ $key ]['title']       = ( apply_filters( 'pt-tabs/sanitize_tab_title', true ) ) ? sanitize_text_field( $item['title'] ) : $item['title'];
 					$instance['items'][ $key ]['builder_id']  = uniqid();
 					$instance['items'][ $key ]['panels_data'] = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
 				}
