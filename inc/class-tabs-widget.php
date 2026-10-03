@@ -119,6 +119,13 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 			$instance['widget_title'] = isset( $new_instance['widget_title'] ) ? sanitize_text_field( $new_instance['widget_title'] ) : '';
 
+			// The tabs list was never shown (its form script did not run), so keep the stored tabs.
+			if ( ! array_key_exists( 'items', $new_instance ) && empty( $new_instance['items_ready'] ) ) {
+				$instance['items'] = isset( $old_instance['items'] ) ? $old_instance['items'] : array();
+
+				return $instance;
+			}
+
 			if ( ! empty( $new_instance['items'] )  ) {
 				foreach ( $new_instance['items'] as $key => $item ) {
 					$instance['items'][ $key ]['id']          = sanitize_key( $item['id'] );
@@ -201,7 +208,10 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			</div>
 		</script>
 
-		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>">
+		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>"
+			data-pt-tabs-widget-id="<?php echo esc_attr( $this->current_widget_id ); ?>"
+			data-pt-tabs-rows="<?php echo esc_attr( wp_json_encode( $items, JSON_HEX_AMP ) ); ?>"
+			data-pt-tabs-ready-name="<?php echo esc_attr( $this->get_field_name( 'items_ready' ) ); ?>">
 			<div class="tabs  js-pt-sortable-tabs"></div>
 			<p>
 				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'pt-tabs' ); ?></a>
@@ -210,27 +220,12 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 		<script type="text/javascript">
 			(function( $ ) {
-				var tabsJSON = <?php echo wp_json_encode( $items ) ?>;
-
 				// Get the right widget id and remove the added < > characters at the start and at the end.
 				var widgetId = '<<?php echo esc_js( $this->current_widget_id ); ?>>'.slice( 1, -1 );
 
-				if ( _.isFunction( PTTabs.Utils.repopulateTabs ) ) {
-					PTTabs.Utils.repopulateTabs( tabsJSON, widgetId );
+				if ( _.isFunction( PTTabs.Utils.initTabs ) ) {
+					PTTabs.Utils.initTabs( $( '#tabs-' + widgetId ) );
 				}
-
-				// Make tabs settings sortable.
-				$( '.js-pt-sortable-tabs' ).sortable({
-					items: '.pt-widget-single-tab',
-					handle: '.pt-tab-setting__header',
-					cancel: '.pt-tab-setting__toggle',
-					placeholder: 'pt-tab-setting__placeholder',
-					stop: function( event, ui ) {
-						$( this ).find( '.js-pt-tab-id' ).each( function( index ) {
-							$( this ).val( index );
-						});
-					}
-				});
 			})( jQuery );
 		</script>
 

@@ -61,10 +61,13 @@ PTTabs.Views.Abstract = Backbone.View.extend( {
 	},
 
 	destroy: function ( ev ) {
+		var $list = this.$el.parent();
+
 		ev.preventDefault();
 
 		this.remove();
 		this.model.trigger( 'destroy' );
+		$list.trigger( 'change' );
 	},
 } );
 
@@ -125,6 +128,8 @@ PTTabs.ListViews.Abstract = Backbone.View.extend( {
 		this.items.add( new this.itemsModel( {
 			id: (currentMaxId + 1)
 		} ) );
+
+		this.$el.trigger( 'change' );
 
 		return this;
 	},
@@ -232,4 +237,45 @@ _.extend( PTTabs.Utils, {
 
 		this.repopulateGeneric( PTTabs.ListViews.Tabs, parameters, tabsJSON, widgetId );
 	},
+
+	/**
+	 * Set up every tabs list in $root once, from its data attributes
+	 * @param  {jQuery} $root a tabs list or an element that contains tabs lists
+	 * @return {void}
+	 */
+	initTabs: function ( $root ) {
+		$root.find( '[data-pt-tabs-widget-id]' ).addBack( '[data-pt-tabs-widget-id]' ).each( function () {
+			var $list    = jQuery( this );
+			var widgetId = String( $list.attr( 'data-pt-tabs-widget-id' ) );
+
+			if ( $list.data( 'ptTabsReady' ) || '__i__' === widgetId.slice( -5 ) ) {
+				return;
+			}
+
+			$list.data( 'ptTabsReady', true );
+			$list.append( jQuery( '<input type="hidden" value="1" />' ).attr( 'name', $list.attr( 'data-pt-tabs-ready-name' ) ) );
+
+			PTTabs.Utils.repopulateTabs( $list.data( 'ptTabsRows' ), widgetId );
+
+			// Make tabs settings sortable.
+			$list.find( '.js-pt-sortable-tabs' ).sortable({
+				items: '.pt-widget-single-tab',
+				handle: '.pt-tab-setting__header',
+				cancel: '.pt-tab-setting__toggle',
+				placeholder: 'pt-tab-setting__placeholder',
+				stop: function( event, ui ) {
+					jQuery( this ).find( '.js-pt-tab-id' ).each( function( index ) {
+						jQuery( this ).val( index );
+					});
+
+					jQuery( this ).trigger( 'change' );
+				}
+			});
+		} );
+	},
+} );
+
+// Forms inserted without running their inline script (the block-based widget editor).
+jQuery( document ).on( 'widget-added widget-updated', function ( event, $widget ) {
+	PTTabs.Utils.initTabs( jQuery( $widget ) );
 } );
