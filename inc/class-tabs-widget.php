@@ -34,12 +34,13 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 			$instance['widget_title'] = empty( $instance['widget_title'] ) ? '' : $args['before_title'] . apply_filters( 'widget_title', $instance['widget_title'], $instance ) . $args['after_title'];
-			$items                    = isset( $instance['items'] ) ? array_values( $instance['items'] ) : array();
+			$items                    = isset( $instance['items'] ) && is_array( $instance['items'] ) ? array_values( array_filter( $instance['items'], 'is_array' ) ) : array();
 
 			// Prepare items data.
 			foreach ( $items as $key => $item ) {
+				$items[ $key ]               = wp_parse_args( $item, array( 'title' => '', 'panels_data' => '' ) );
 				$items[ $key ]['builder_id'] = empty( $item['builder_id'] ) ? uniqid() : $item['builder_id'];
-				$items[ $key ]['tab_id']     = $this->format_id_from_name( $item['title'] );
+				$items[ $key ]['tab_id']     = $this->format_id_from_name( $items[ $key ]['title'] );
 			}
 
 			// Should we use the older Twitter Bootstrap tabs layout?
@@ -143,7 +144,26 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					}
 				}
 
+				// Rows without a numeric id get the next free one, so the sort below and the form's one-row-per-id list keep them.
+				$max_id = -1;
+
+				foreach ( $new_instance['items'] as $item ) {
+					if ( is_array( $item ) && isset( $item['id'] ) && is_numeric( $item['id'] ) ) {
+						$max_id = max( $max_id, (int) $item['id'] );
+					}
+				}
+
 				foreach ( $new_instance['items'] as $key => $item ) {
+					if ( ! is_array( $item ) ) {
+						continue;
+					}
+
+					$item = wp_parse_args( $item, array( 'id' => '', 'title' => '', 'panels_data' => '' ) );
+
+					if ( ! is_numeric( $item['id'] ) ) {
+						$item['id'] = ++$max_id;
+					}
+
 					$panels_data = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
 
 					// Run the nested widgets' own update() and sanitize the layout, as Page Builder does for the page layout.
