@@ -2,8 +2,8 @@
 **Contributors:** capuderg, cyman, proteusthemes  
 **Tags:** tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes  
 **Requires at least:** 4.0.0  
-**Tested up to:** 4.9  
-**Stable tag:** 1.2.1  
+**Tested up to:** 7.1  
+**Stable tag:** 1.2.2  
 **License:** GPLv3 or later  
 
 Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by SiteOrigin editor.
@@ -27,6 +27,12 @@ Upload the Tabs Widget for Page Builder plugin to your WordPress site, Activate 
 Once you activate it, the "Tabs Widget for Page Builder" widget will be available in your Page Builder editor.
 
 ## Changelog ##
+
+### 1.2.2 ###
+*3 October 2026*
+
+* Fixed a PHP error when a Tabs widget without tabs is saved in Page Builder.
+* Added a filter, that turns off the tab title sanitization (`pt-tabs/sanitize_tab_title`).
 
 ### 1.2.1 ###
 *8 July 2016*
