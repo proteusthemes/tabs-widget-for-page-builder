@@ -10,8 +10,8 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 		public function __construct() {
 			$this->widget_id_base     = 'tabs';
-			$this->widget_name        = esc_html__( 'Tabs for Page Builder', 'pt-tabs' );
-			$this->widget_description = esc_html__( 'Bootstrap tabs widget for use in Page Builder.', 'pt-tabs' );
+			$this->widget_name        = esc_html__( 'Tabs for Page Builder', 'tabs-widget-for-page-builder' );
+			$this->widget_description = esc_html__( 'Bootstrap tabs widget for use in Page Builder.', 'tabs-widget-for-page-builder' );
 			$this->widget_class       = 'pt-widget-tabs';
 
 			parent::__construct(
@@ -221,32 +221,32 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		?>
 
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'pt-tabs' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'tabs-widget-for-page-builder' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'widget_title' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>" />
 		</p>
 
 		<hr>
 
-		<h3><?php esc_html_e( 'Tabs:', 'pt-tabs' ); ?></h3>
+		<h3><?php esc_html_e( 'Tabs:', 'tabs-widget-for-page-builder' ); ?></h3>
 
 		<script type="text/template" id="js-pt-tab-<?php echo esc_attr( $this->current_widget_id ); ?>">
 			<div class="pt-tab-setting  ui-widget  ui-widget-content  ui-helper-clearfix  ui-corner-all">
 				<div class="pt-tab-setting__header  ui-widget-header  ui-corner-all">
 					<span class="dashicons  dashicons-sort"></span>
-					<span><?php esc_html_e( 'Tab', 'pt-tabs' ); ?> - </span>
+					<span><?php esc_html_e( 'Tab', 'tabs-widget-for-page-builder' ); ?> - </span>
 					<span class="pt-tab-setting__header-title">{{title}}</span>
 					<span class="pt-tab-setting__toggle  dashicons  dashicons-minus"></span>
 				</div>
 				<div class="pt-tab-setting__content">
 					<p>
-						<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'pt-tabs' ); ?></label>
+						<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'tabs-widget-for-page-builder' ); ?></label>
 						<input class="widefat  js-pt-tab-setting-title" id="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][title]" type="text" value="{{title}}" />
 					</p>
 
-					<label><?php _ex( 'Tab content:', 'backend', 'pt-tabs' ); ?></label>
+					<label><?php _ex( 'Tab content:', 'backend', 'tabs-widget-for-page-builder' ); ?></label>
 					<div class="siteorigin-page-builder-widget siteorigin-panels-builder siteorigin-panels-builder--pt-tabs" id="siteorigin-page-builder-widget-{{builder_id}}" data-builder-id="{{builder_id}}" data-type="layout_widget">
 						<p>
-							<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'pt-tabs') ?></a>
+							<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'tabs-widget-for-page-builder') ?></a>
 						</p>
 
 						<input type="hidden" data-panels-filter="json_parse" value="{{panels_data}}" class="panels-data" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][panels_data]" />
@@ -254,7 +254,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 					<p>
 						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
-						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'pt-tabs' ); ?></a>
+						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'tabs-widget-for-page-builder' ); ?></a>
 					</p>
 				</div>
 			</div>
@@ -266,7 +266,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			data-pt-tabs-ready-name="<?php echo esc_attr( $this->get_field_name( 'items_ready' ) ); ?>">
 			<div class="tabs  js-pt-sortable-tabs"></div>
 			<p>
-				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'pt-tabs' ); ?></a>
+				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'tabs-widget-for-page-builder' ); ?></a>
 			</p>
 		</div>
 
