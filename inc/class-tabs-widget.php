@@ -127,11 +127,41 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			}
 
 			if ( ! empty( $new_instance['items'] )  ) {
+				$old_widgets = array();
+
+				if ( ! empty( $old_instance['items'] ) && is_array( $old_instance['items'] ) ) {
+					foreach ( $old_instance['items'] as $old_item ) {
+						$old_panels_data = isset( $old_item['panels_data'] ) ? $old_item['panels_data'] : array();
+
+						if ( is_string( $old_panels_data ) ) {
+							$old_panels_data = json_decode( $old_panels_data, true );
+						}
+
+						if ( ! empty( $old_panels_data['widgets'] ) && is_array( $old_panels_data['widgets'] ) ) {
+							$old_widgets = array_merge( $old_widgets, $old_panels_data['widgets'] );
+						}
+					}
+				}
+
 				foreach ( $new_instance['items'] as $key => $item ) {
+					$panels_data = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
+
+					// Run the nested widgets' own update() and sanitize the layout, as Page Builder does for the page layout.
+					if ( empty( $panels_data ) || ! is_array( $panels_data ) ) {
+						$panels_data = '';
+					}
+					else {
+						if ( ! empty( $panels_data['widgets'] ) ) {
+							$panels_data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $panels_data['widgets'], $old_widgets );
+						}
+
+						$panels_data = SiteOrigin_Panels_Styles_Admin::single()->sanitize_all( $panels_data );
+					}
+
 					$instance['items'][ $key ]['id']          = sanitize_key( $item['id'] );
 					$instance['items'][ $key ]['title']       = ( apply_filters( 'pt-tabs/sanitize_tab_title', true ) ) ? sanitize_text_field( $item['title'] ) : $item['title'];
 					$instance['items'][ $key ]['builder_id']  = uniqid();
-					$instance['items'][ $key ]['panels_data'] = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
+					$instance['items'][ $key ]['panels_data'] = $panels_data;
 				}
 			}
 
