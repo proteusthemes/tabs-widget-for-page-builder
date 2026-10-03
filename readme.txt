@@ -3,7 +3,7 @@ Contributors: capuderg, cyman, proteusthemes
 Tags: tabs, widget, Page Builder by SiteOrigin, SiteOrigin, Bootstrap, ProteusThemes
 Requires at least: 4.0.0
 Tested up to: 7.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3 or later
 
 Adds a "Tabs for Page Builder" widget, which can be used in Page Builder by SiteOrigin editor.
@@ -27,6 +27,12 @@ Upload the Tabs Widget for Page Builder plugin to your WordPress site, Activate 
 Once you activate it, the "Tabs Widget for Page Builder" widget will be available in your Page Builder editor.
 
 == Changelog ==
+
+= 1.2.3 =
+*3 October 2026*
+
+* Security hardening and bug fixes.
+* Changed the text domain to `tabs-widget-for-page-builder`, so translations now load from wordpress.org language packs. Custom `pt-tabs-{locale}.mo` files need to be renamed to `tabs-widget-for-page-builder-{locale}.mo`.
 
 = 1.2.2 =
 *3 October 2026*
