@@ -97,13 +97,15 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			$tab_id = preg_replace( '/[^\p{L}\p{N}-]+/u', '', $tab_id );
 
 			// Add suffix if there are multiple identical tab titles.
-			if ( array_key_exists( $tab_id, $this->used_IDs ) ) {
-				$this->used_IDs[ $tab_id ] ++;
-				$tab_id = $tab_id . '-' . $this->used_IDs[ $tab_id ];
+			$base_id = $tab_id;
+			$suffix  = 0;
+
+			while ( isset( $this->used_IDs[ $tab_id ] ) ) {
+				$suffix++;
+				$tab_id = $base_id . '-' . $suffix;
 			}
-			else {
-				$this->used_IDs[ $tab_id ] = 0;
-			}
+
+			$this->used_IDs[ $tab_id ] = true;
 
 			// Return unique ID.
 			return $tab_id;
