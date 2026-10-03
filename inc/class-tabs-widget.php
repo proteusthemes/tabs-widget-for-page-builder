@@ -115,9 +115,9 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		 * @param array $old_instance The previous options
 		 */
 		public function update( $new_instance, $old_instance ) {
-			$instance = array();
+			$instance = array( 'items' => array() );
 
-			$instance['widget_title'] = sanitize_text_field( $new_instance['widget_title'] );
+			$instance['widget_title'] = isset( $new_instance['widget_title'] ) ? sanitize_text_field( $new_instance['widget_title'] ) : '';
 
 			if ( ! empty( $new_instance['items'] )  ) {
 				foreach ( $new_instance['items'] as $key => $item ) {
