@@ -122,8 +122,9 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 			$instance['widget_title'] = isset( $new_instance['widget_title'] ) ? sanitize_text_field( $new_instance['widget_title'] ) : '';
 
-			// The tabs list was never shown (its form script did not run), so keep the stored tabs.
-			if ( ! array_key_exists( 'items', $new_instance ) && empty( $new_instance['items_ready'] ) ) {
+			// The tabs list was never shown (its form script did not run), so keep the stored tabs. Not for Page Builder, which
+			// passes the whole stored widget and pairs $old_instance by a widget id that need not be unique.
+			if ( ! array_key_exists( 'items', $new_instance ) && empty( $new_instance['items_ready'] ) && ! isset( $new_instance['panels_info'] ) ) {
 				$instance['items'] = isset( $old_instance['items'] ) ? $old_instance['items'] : array();
 
 				return $instance;
