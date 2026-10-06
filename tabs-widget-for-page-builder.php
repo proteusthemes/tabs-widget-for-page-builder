@@ -3,12 +3,12 @@
 Plugin Name: Tabs Widget for Page Builder
 Plugin URI: http://www.proteusthemes.com
 Description: Bootstrap tabs widget for use in Page Builder by SiteOrigin
-Version: 1.2.2
+Version: 1.2.3
 Author: ProteusThemes
 Author URI: http://www.proteusthemes.com
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl.html
-Text domain: pt-tabs
+Text domain: tabs-widget-for-page-builder
 */
 
 
@@ -17,7 +17,7 @@ define( 'PT_TABS_PATH', apply_filters( 'pt-tabs/plugin_dir_path', plugin_dir_pat
 define( 'PT_TABS_URL', apply_filters( 'pt-tabs/plugin_dir_url', plugin_dir_url( __FILE__ ) ) );
 
 // Current version of the plugin
-define( 'PT_TABS_VERSION', apply_filters( 'pt-tabs/version', '1.2.2' ) );
+define( 'PT_TABS_VERSION', apply_filters( 'pt-tabs/version', '1.2.3' ) );
 
 /**
  * Tabs Widget class, so we don't have to worry about namespaces
@@ -39,7 +39,7 @@ class PT_Tabs {
 	 */
 	function setup_this_plugin() {
 		if ( defined( 'SITEORIGIN_PANELS_VERSION' ) ) {
-			load_plugin_textdomain( 'pt-tabs', false, PT_TABS_PATH . 'languages/' );
+			load_plugin_textdomain( 'tabs-widget-for-page-builder', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 			// actions to fire once we know, that Page Builder by SiteOrigin plugin is active
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_js_css' ), 20 );

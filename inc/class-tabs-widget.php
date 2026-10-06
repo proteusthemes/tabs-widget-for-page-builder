@@ -10,8 +10,8 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 		public function __construct() {
 			$this->widget_id_base     = 'tabs';
-			$this->widget_name        = esc_html__( 'Tabs for Page Builder', 'pt-tabs' );
-			$this->widget_description = esc_html__( 'Bootstrap tabs widget for use in Page Builder.', 'pt-tabs' );
+			$this->widget_name        = esc_html__( 'Tabs for Page Builder', 'tabs-widget-for-page-builder' );
+			$this->widget_description = esc_html__( 'Bootstrap tabs widget for use in Page Builder.', 'tabs-widget-for-page-builder' );
 			$this->widget_class       = 'pt-widget-tabs';
 
 			parent::__construct(
@@ -34,12 +34,13 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 			$instance['widget_title'] = empty( $instance['widget_title'] ) ? '' : $args['before_title'] . apply_filters( 'widget_title', $instance['widget_title'], $instance ) . $args['after_title'];
-			$items                    = isset( $instance['items'] ) ? array_values( $instance['items'] ) : array();
+			$items                    = isset( $instance['items'] ) && is_array( $instance['items'] ) ? array_values( array_filter( $instance['items'], 'is_array' ) ) : array();
 
 			// Prepare items data.
 			foreach ( $items as $key => $item ) {
+				$items[ $key ]               = wp_parse_args( $item, array( 'title' => '', 'panels_data' => '' ) );
 				$items[ $key ]['builder_id'] = empty( $item['builder_id'] ) ? uniqid() : $item['builder_id'];
-				$items[ $key ]['tab_id']     = $this->format_id_from_name( $item['title'] );
+				$items[ $key ]['tab_id']     = $this->format_id_from_name( $items[ $key ]['title'] );
 			}
 
 			// Should we use the older Twitter Bootstrap tabs layout?
@@ -96,13 +97,15 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			$tab_id = preg_replace( '/[^\p{L}\p{N}-]+/u', '', $tab_id );
 
 			// Add suffix if there are multiple identical tab titles.
-			if ( array_key_exists( $tab_id, $this->used_IDs ) ) {
-				$this->used_IDs[ $tab_id ] ++;
-				$tab_id = $tab_id . '-' . $this->used_IDs[ $tab_id ];
+			$base_id = $tab_id;
+			$suffix  = 0;
+
+			while ( isset( $this->used_IDs[ $tab_id ] ) ) {
+				$suffix++;
+				$tab_id = $base_id . '-' . $suffix;
 			}
-			else {
-				$this->used_IDs[ $tab_id ] = 0;
-			}
+
+			$this->used_IDs[ $tab_id ] = true;
 
 			// Return unique ID.
 			return $tab_id;
@@ -119,12 +122,66 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 			$instance['widget_title'] = isset( $new_instance['widget_title'] ) ? sanitize_text_field( $new_instance['widget_title'] ) : '';
 
+			// The tabs list was never shown (its form script did not run), so keep the stored tabs. Not for Page Builder, which
+			// passes the whole stored widget and pairs $old_instance by a widget id that need not be unique.
+			if ( ! array_key_exists( 'items', $new_instance ) && empty( $new_instance['items_ready'] ) && ! isset( $new_instance['panels_info'] ) ) {
+				$instance['items'] = isset( $old_instance['items'] ) ? $old_instance['items'] : array();
+
+				return $instance;
+			}
+
 			if ( ! empty( $new_instance['items'] )  ) {
+				// Rows without a numeric id get the next free one, so the sort below and the form's one-row-per-id list keep them.
+				$max_id = -1;
+
+				foreach ( $new_instance['items'] as $item ) {
+					if ( is_array( $item ) && isset( $item['id'] ) && is_numeric( $item['id'] ) ) {
+						$max_id = max( $max_id, (int) $item['id'] );
+					}
+				}
+
 				foreach ( $new_instance['items'] as $key => $item ) {
+					if ( ! is_array( $item ) ) {
+						continue;
+					}
+
+					$item = wp_parse_args( $item, array( 'id' => '', 'title' => '', 'panels_data' => '' ) );
+
+					if ( ! is_numeric( $item['id'] ) ) {
+						$item['id'] = ++$max_id;
+					}
+
+					$old_widgets = array();
+
+					if ( ! empty( $item['builder_id'] ) && ! empty( $old_instance['items'] ) && is_array( $old_instance['items'] ) ) {
+						foreach ( $old_instance['items'] as $old_item ) {
+							if ( isset( $old_item['builder_id'] ) && $item['builder_id'] === $old_item['builder_id'] ) {
+								$old_panels_data = isset( $old_item['panels_data'] ) ? $old_item['panels_data'] : array();
+								$old_panels_data = is_string( $old_panels_data ) ? json_decode( $old_panels_data, true ) : $old_panels_data;
+								$old_widgets = isset( $old_panels_data['widgets'] ) && is_array( $old_panels_data['widgets'] ) ? $old_panels_data['widgets'] : array();
+								break;
+							}
+						}
+					}
+
+					$panels_data = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
+
+					// Run the nested widgets' own update() and sanitize the layout, as Page Builder does for the page layout.
+					if ( empty( $panels_data ) || ! is_array( $panels_data ) ) {
+						$panels_data = '';
+					}
+					else {
+						if ( ! empty( $panels_data['widgets'] ) ) {
+							$panels_data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $panels_data['widgets'], $old_widgets );
+						}
+
+						$panels_data = SiteOrigin_Panels_Styles_Admin::single()->sanitize_all( $panels_data );
+					}
+
 					$instance['items'][ $key ]['id']          = sanitize_key( $item['id'] );
 					$instance['items'][ $key ]['title']       = ( apply_filters( 'pt-tabs/sanitize_tab_title', true ) ) ? sanitize_text_field( $item['title'] ) : $item['title'];
 					$instance['items'][ $key ]['builder_id']  = uniqid();
-					$instance['items'][ $key ]['panels_data'] = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
+					$instance['items'][ $key ]['panels_data'] = $panels_data;
 				}
 			}
 
@@ -162,75 +219,64 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 		?>
 
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'pt-tabs' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'tabs-widget-for-page-builder' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'widget_title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'widget_title' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>" />
 		</p>
 
 		<hr>
 
-		<h3><?php esc_html_e( 'Tabs:', 'pt-tabs' ); ?></h3>
+		<h3><?php esc_html_e( 'Tabs:', 'tabs-widget-for-page-builder' ); ?></h3>
 
 		<script type="text/template" id="js-pt-tab-<?php echo esc_attr( $this->current_widget_id ); ?>">
 			<div class="pt-tab-setting  ui-widget  ui-widget-content  ui-helper-clearfix  ui-corner-all">
 				<div class="pt-tab-setting__header  ui-widget-header  ui-corner-all">
 					<span class="dashicons  dashicons-sort"></span>
-					<span><?php esc_html_e( 'Tab', 'pt-tabs' ); ?> - </span>
+					<span><?php esc_html_e( 'Tab', 'tabs-widget-for-page-builder' ); ?> - </span>
 					<span class="pt-tab-setting__header-title">{{title}}</span>
 					<span class="pt-tab-setting__toggle  dashicons  dashicons-minus"></span>
 				</div>
 				<div class="pt-tab-setting__content">
 					<p>
-						<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'pt-tabs' ); ?></label>
+						<label for="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title"><?php _ex( 'Tab title:', 'backend', 'tabs-widget-for-page-builder' ); ?></label>
 						<input class="widefat  js-pt-tab-setting-title" id="<?php echo esc_attr( $this->get_field_id( 'items' ) ); ?>-{{id}}-title" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][title]" type="text" value="{{title}}" />
 					</p>
 
-					<label><?php _ex( 'Tab content:', 'backend', 'pt-tabs' ); ?></label>
+					<label><?php _ex( 'Tab content:', 'backend', 'tabs-widget-for-page-builder' ); ?></label>
 					<div class="siteorigin-page-builder-widget siteorigin-panels-builder siteorigin-panels-builder--pt-tabs" id="siteorigin-page-builder-widget-{{builder_id}}" data-builder-id="{{builder_id}}" data-type="layout_widget">
 						<p>
-							<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'pt-tabs') ?></a>
+							<a href="#" class="button-secondary siteorigin-panels-display-builder" ><?php _e('Open Builder', 'tabs-widget-for-page-builder') ?></a>
 						</p>
 
 						<input type="hidden" data-panels-filter="json_parse" value="{{panels_data}}" class="panels-data" name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][panels_data]" />
 					</div>
 
 					<p>
+						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][builder_id]" type="hidden" value="{{stored_builder_id}}" />
 						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
-						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'pt-tabs' ); ?></a>
+						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'tabs-widget-for-page-builder' ); ?></a>
 					</p>
 				</div>
 			</div>
 		</script>
 
-		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>">
+		<div class="pt-widget-tabs" id="tabs-<?php echo esc_attr( $this->current_widget_id ); ?>"
+			data-pt-tabs-widget-id="<?php echo esc_attr( $this->current_widget_id ); ?>"
+			data-pt-tabs-rows="<?php echo esc_attr( wp_json_encode( $items, JSON_HEX_AMP ) ); ?>"
+			data-pt-tabs-ready-name="<?php echo esc_attr( $this->get_field_name( 'items_ready' ) ); ?>">
 			<div class="tabs  js-pt-sortable-tabs"></div>
 			<p>
-				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'pt-tabs' ); ?></a>
+				<a href="#" class="button  js-pt-add-tab"><?php _ex( 'Add new tab', 'backend', 'tabs-widget-for-page-builder' ); ?></a>
 			</p>
 		</div>
 
 		<script type="text/javascript">
 			(function( $ ) {
-				var tabsJSON = <?php echo wp_json_encode( $items ) ?>;
-
 				// Get the right widget id and remove the added < > characters at the start and at the end.
 				var widgetId = '<<?php echo esc_js( $this->current_widget_id ); ?>>'.slice( 1, -1 );
 
-				if ( _.isFunction( PTTabs.Utils.repopulateTabs ) ) {
-					PTTabs.Utils.repopulateTabs( tabsJSON, widgetId );
+				if ( _.isFunction( PTTabs.Utils.initTabs ) ) {
+					PTTabs.Utils.initTabs( $( '#tabs-' + widgetId ) );
 				}
-
-				// Make tabs settings sortable.
-				$( '.js-pt-sortable-tabs' ).sortable({
-					items: '.pt-widget-single-tab',
-					handle: '.pt-tab-setting__header',
-					cancel: '.pt-tab-setting__toggle',
-					placeholder: 'pt-tab-setting__placeholder',
-					stop: function( event, ui ) {
-						$( this ).find( '.js-pt-tab-id' ).each( function( index ) {
-							$( this ).val( index );
-						});
-					}
-				});
 			})( jQuery );
 		</script>
 
