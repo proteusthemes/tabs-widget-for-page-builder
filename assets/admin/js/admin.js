@@ -176,6 +176,7 @@ _.extend( PTTabs.ListViews, {
 		// Overwrite the appendOne function to setup the layout builder
 		appendOne: function ( item ) {
 			// Set an unique ID for a new tab (will be used in the div id)
+			item.attributes.stored_builder_id = item.attributes.builder_id;
 			item.attributes.builder_id = _.uniqueId('layout-builder-');
 
 			var renderedItem = new this.itemView( {

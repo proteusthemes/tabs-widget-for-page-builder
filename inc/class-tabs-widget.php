@@ -131,22 +131,6 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 			}
 
 			if ( ! empty( $new_instance['items'] )  ) {
-				$old_widgets = array();
-
-				if ( ! empty( $old_instance['items'] ) && is_array( $old_instance['items'] ) ) {
-					foreach ( $old_instance['items'] as $old_item ) {
-						$old_panels_data = isset( $old_item['panels_data'] ) ? $old_item['panels_data'] : array();
-
-						if ( is_string( $old_panels_data ) ) {
-							$old_panels_data = json_decode( $old_panels_data, true );
-						}
-
-						if ( ! empty( $old_panels_data['widgets'] ) && is_array( $old_panels_data['widgets'] ) ) {
-							$old_widgets = array_merge( $old_widgets, $old_panels_data['widgets'] );
-						}
-					}
-				}
-
 				// Rows without a numeric id get the next free one, so the sort below and the form's one-row-per-id list keep them.
 				$max_id = -1;
 
@@ -165,6 +149,19 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 
 					if ( ! is_numeric( $item['id'] ) ) {
 						$item['id'] = ++$max_id;
+					}
+
+					$old_widgets = array();
+
+					if ( ! empty( $item['builder_id'] ) && ! empty( $old_instance['items'] ) && is_array( $old_instance['items'] ) ) {
+						foreach ( $old_instance['items'] as $old_item ) {
+							if ( isset( $old_item['builder_id'] ) && $item['builder_id'] === $old_item['builder_id'] ) {
+								$old_panels_data = isset( $old_item['panels_data'] ) ? $old_item['panels_data'] : array();
+								$old_panels_data = is_string( $old_panels_data ) ? json_decode( $old_panels_data, true ) : $old_panels_data;
+								$old_widgets = isset( $old_panels_data['widgets'] ) && is_array( $old_panels_data['widgets'] ) ? $old_panels_data['widgets'] : array();
+								break;
+							}
+						}
 					}
 
 					$panels_data = is_string( $item['panels_data'] ) ? json_decode( $item['panels_data'], true ) : $item['panels_data'];
@@ -254,6 +251,7 @@ if ( ! class_exists( 'PT_Tabs_Widget' ) ) {
 					</div>
 
 					<p>
+						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][builder_id]" type="hidden" value="{{stored_builder_id}}" />
 						<input name="<?php echo esc_attr( $this->get_field_name( 'items' ) ); ?>[{{id}}][id]" class="js-pt-tab-id" type="hidden" value="{{id}}" />
 						<a href="#" class="pt-remove-tab  js-pt-remove-tab"><span class="dashicons dashicons-dismiss"></span> <?php _ex( 'Remove tab', 'backend', 'tabs-widget-for-page-builder' ); ?></a>
 					</p>
